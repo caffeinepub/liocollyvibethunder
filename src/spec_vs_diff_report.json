@@ -1,0 +1,135 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-14T23:22:33.748Z",
+  "summary": "The diff adds a new mobile shell, routing, auth gating components, a lyric editor with templates + local rhyme suggestions, and partial backend models for profiles/lyrics/media/messages. However, collaborator discovery, snippet uploads, voice note recording, and several backend CRUD/query endpoints are missing or only partially evidenced (backend file is truncated). There are also unrequested additions like admin-token-based access control initialization and external blob-storage/authorization mixins.",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "Backend persistent CRUD for artist profiles with genres/tags queryable for discovery and readable by other users.",
+      "reason": "Backend shows update + get-by-principal only; no evidence of listing/searching/querying profiles by genre/tag for discovery. Also a separate getUserProfile endpoint appears restricted to self/admin, which conflicts with 'readable by other users' unless getArtistProfile is used everywhere (not evidenced).",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Frontend collaborator discovery screen with filtering by genre/tag and ability to open artist profile details.",
+      "reason": "Discovery page is a placeholder with 'coming soon' text and skeletons; no implementation of browsing/filtering collaborators or opening results is shown.",
+      "evidence": [
+        "frontend/src/pages/DiscoveryPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Backend lyrics management CRUD (create/edit/list/delete), scoped to principal, with title, created/updated timestamps, optional tags, and list sorted by updated time.",
+      "reason": "Backend defines LyricDocument and begins implementing saveLyric, but the diff is truncated before showing list/update/delete endpoints and sorting by updated time.",
+      "evidence": [
+        "backend/main.mo (truncated)",
+        "frontend/src/hooks/useQueries.ts (calls getUserLyrics/updateLyric/deleteLyric but implementations not shown in backend snippet)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Frontend lyrics library view with organization (search/filter by tag) and save feedback (autosave or explicit save feedback).",
+      "reason": "Lyric editor page is present and includes explicit save actions/toasts, but the lyrics library page is not included in the provided diff summary content, so search/filter and library behaviors are not evidenced.",
+      "evidence": [
+        "frontend/src/App.tsx (routes to LyricsLibraryPage)",
+        "frontend/src/pages/LyricEditorPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Voice note recording using MediaRecorder: record/playback/name/save, associated with lyric or standalone; backend stores recording with documented size/time limits enforced by UI.",
+      "reason": "Backend defines a VoiceNote type and map, and the app routes to a VoiceNotesPage, but there is no evidence of MediaRecorder-based recording UI, playback UI, save endpoints, or enforced limits in the provided diff summary.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/App.tsx (VoiceNotesPage route)"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Song snippet uploads: upload short audio with title/description/genres and publish on uploader profile; others can play; UI enforces file size/length limit before upload.",
+      "reason": "Backend defines a SongSnippet type and ArtistProfilePage calls a snippets query hook, but no upload UI/page and no limit enforcement are evidenced. The backend snippet is truncated before any snippet endpoints are shown.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/ArtistProfilePage.tsx (uses useGetUserSongSnippets)",
+        "frontend/src/hooks/useQueries.ts (imports SongSnippet but snippet hooks not shown in provided portion)"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Direct messaging: backend stores conversations/messages; frontend inbox lists recent conversations from backend; conversation view shows chronological messages with timestamps; signed-in gating; persistence.",
+      "reason": "Conversation UI exists and is gated, but inbox uses localStorage 'recentConversations' rather than a backend conversation list, so 'Inbox lists recent conversations' from backend is not evidenced. Backend conversation storage/endpoints are not shown due to truncation.",
+      "evidence": [
+        "frontend/src/pages/InboxPage.tsx (localStorage recentConversations)",
+        "frontend/src/pages/ConversationPage.tsx",
+        "backend/main.mo (conversation types/maps only; endpoints not evidenced)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Admin-token/secret-based access control initialization from the frontend (caffeineAdminToken) and backend authorization mixin usage.",
+      "reason": "BuildRequest did not ask for admin-token initialization, secret URL parameters, or a custom authorization framework; it only required Internet Identity auth gating for user actions.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts (getSecretParameter('caffeineAdminToken'); actor._initializeAccessControlWithSecret)",
+        "backend/main.mo (imports authorization/access-control; MixinAuthorization; permission checks)"
+      ]
+    },
+    {
+      "description": "External blob storage mixin/dependency for storing audio via Storage.ExternalBlob.",
+      "reason": "The request required backend storage of recordings/snippets but did not specify adding a blob-storage library/mixin; this is an architectural addition beyond the requested functionality.",
+      "evidence": [
+        "backend/main.mo (imports blob-storage/Storage, blob-storage/Mixin; uses Storage.ExternalBlob)"
+      ]
+    },
+    {
+      "description": "ThemeProvider using next-themes in a Vite/React app.",
+      "reason": "REQ-1 asks for a consistent theme but does not request adding next-themes specifically; this is an unrequested implementation detail.",
+      "evidence": [
+        "frontend/src/App.tsx (imports ThemeProvider from 'next-themes')"
+      ]
+    },
+    {
+      "description": "Use of react-icons (SiInstagram/SiX) for social link icons.",
+      "reason": "Not requested; BuildRequest only specifies UI features and English text, not an additional icon library beyond what’s already present.",
+      "evidence": [
+        "frontend/src/pages/ArtistProfilePage.tsx (imports from 'react-icons/si')"
+      ]
+    }
+  ],
+  "confidence": 0.68,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AuthButton.tsx",
+    "frontend/src/components/auth/AuthGate.tsx",
+    "frontend/src/components/layout/MobileShell.tsx",
+    "frontend/src/components/profile/ProfileForm.tsx",
+    "frontend/src/components/profile/ProfileSetupModal.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/rhyme/rhymeEngine.ts",
+    "frontend/src/lib/rhyme/wordlist.en.ts",
+    "frontend/src/lib/templates/songTemplates.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/ArtistProfilePage.tsx",
+    "frontend/src/pages/ConversationPage.tsx",
+    "frontend/src/pages/DiscoveryPage.tsx",
+    "frontend/src/pages/InboxPage.tsx",
+    "frontend/src/pages/LyricEditorPage.tsx",
+    "frontend/src/pages/LyricsLibraryPage.tsx",
+    "frontend/src/pages/MyProfilePage.tsx",
+    "frontend/src/pages/VoiceNotesPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

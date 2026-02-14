@@ -1,0 +1,340 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "LioCollyVibeThunder — Frontend MVP (mobile-first songwriting + collaboration)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create a mobile-first UI shell with a consistent non-blue/purple theme applied across all pages.",
+      "acceptanceCriteria": [
+        "App is usable on small screens with responsive layouts and touch-friendly controls.",
+        "Theme is consistent across navigation, forms, lists, and detail views.",
+        "Do not use a blue+purple primary palette unless explicitly requested; choose a distinct non-blue/purple style direction and apply it consistently."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add the Tailwind base/components/utilities entry and the app theme tokens (CSS variables) so the import in frontend/src/main.tsx resolves correctly; implement a distinct non-blue/purple palette (e.g., warm ember/orange primary + neutral graphite) and mobile-friendly base typography/spacing."
+        },
+        {
+          "path": "frontend/index.css",
+          "operation": "modify",
+          "description": "Align existing CSS variable tokens to the chosen non-blue/purple theme direction and ensure base body/background/foreground styles are consistent across the app (avoid blue/purple primary)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the application shell (mobile-first layout, top bar and/or bottom navigation, consistent padding/typography) and route container so all required screens share the same theme and structure. Use shadcn-ui components for consistent styling (e.g., buttons, inputs, cards, dialogs). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated app logo asset and reference it from the app shell (e.g., header/brand area) as a static public asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/hero-banner.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated hero/banner asset and wire it into an existing required screen (e.g., discovery or lyrics library header) as a static public asset."
+        },
+        {
+          "path": "frontend/public/assets/generated/feature-icons.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated feature icon set as a static public asset and use it in existing required screens (e.g., nav items / feature shortcuts) without adding new top-level routes."
+        },
+        {
+          "path": "frontend/src/components/layout/MobileShell.tsx",
+          "operation": "create",
+          "description": "Implement a reusable mobile-first shell component (safe-area friendly header/footer, scroll container, consistent spacing) used by all pages. Use shadcn-ui building blocks where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/BottomNav.tsx",
+          "operation": "create",
+          "description": "Implement a touch-friendly bottom navigation that links to the required sections (Discovery, Lyrics, Messages, Profile). Use shadcn-ui components for consistent buttons/active states. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement Internet Identity sign-in/out UI and session-aware gating for creation/editing actions while allowing limited browsing.",
+      "acceptanceCriteria": [
+        "Users can sign in and sign out using Internet Identity.",
+        "When signed out, the app prompts for sign-in before creating/editing content.",
+        "The UI shows the current signed-in status (e.g., a profile/avatar menu or indicator)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/AuthButton.tsx",
+          "operation": "create",
+          "description": "Create a sign-in/sign-out control using the existing useInternetIdentity hook; show current auth state and handle logout by clearing cached queries. Use shadcn-ui components for button/menu styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthGate.tsx",
+          "operation": "create",
+          "description": "Create a wrapper component that blocks create/edit actions when signed out and instead shows an English prompt to sign in; keep read-only browsing views accessible where appropriate. Use shadcn-ui components for dialog/alert styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Add a react-query hook that fetches backend.getCallerUserProfile via useActor and exposes loading/fetched state to prevent profile-setup UI flash, following the selected authorization component frontend guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/profile/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Implement a first-login profile setup modal that asks for display name (and optional basics) when authenticated but backend.getCallerUserProfile is null; avoid displaying principal id. Use shadcn-ui Dialog/Form components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire auth UI into the global shell (show signed-in indicator/menu) and apply AuthGate to creation/editing actions across Lyrics, Profile editing, Voice notes saving, Snippet publishing, and Messaging composer. Use shadcn-ui components for consistent UI. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build artist profile screens (create/edit mine, view others) and collaborator discovery with genre/tag filtering.",
+      "acceptanceCriteria": [
+        "User can create/edit their own profile from the UI.",
+        "User can browse/search/filter collaborators by genre/tag and open profile details.",
+        "Profile viewing clearly shows key fields (name, bio, genres/tags)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DiscoveryPage.tsx",
+          "operation": "create",
+          "description": "Implement collaborator discovery UI with search and genre/tag filters; display a list of profiles and allow opening a profile detail screen. Use shadcn-ui inputs, badges, cards, and skeleton/loading states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/MyProfilePage.tsx",
+          "operation": "create",
+          "description": "Implement 'My Profile' view with create/edit capabilities for display name, bio, genres/tags, and optional social links; gate edits behind AuthGate. Use shadcn-ui Form components and toast feedback. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ArtistProfilePage.tsx",
+          "operation": "create",
+          "description": "Implement 'Artist Profile' detail view for another creator: show name, bio, genres/tags, social links, published snippets list, and an action to message the creator. Use shadcn-ui cards, badges, and buttons. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useProfiles.ts",
+          "operation": "create",
+          "description": "Add react-query hooks to fetch profiles needed for discovery and viewing (current user profile and other users' profiles) via backend methods from frontend/src/backend.d.ts, with graceful handling of authorization errors."
+        },
+        {
+          "path": "frontend/src/components/profile/ProfileForm.tsx",
+          "operation": "create",
+          "description": "Create a reusable profile form component (display name, bio, genres/tags entry, social links) used by MyProfilePage and profile setup modal. Use shadcn-ui inputs/textarea/badges. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/profile/GenresTagPicker.tsx",
+          "operation": "create",
+          "description": "Implement a mobile-friendly genres/tags entry UI (add/remove chips, suggested tags) used for filtering and editing profiles. Use shadcn-ui input + badge components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes and navigation entries for discovery, my profile, and artist profile detail; ensure they render within the mobile shell and do not introduce extra top-level pages beyond what is required."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Provide a mobile-optimized lyric editor and a library view to organize and open saved lyrics.",
+      "acceptanceCriteria": [
+        "User can create a new lyric, edit it, and see it appear in their library.",
+        "Library supports basic organization (search by title and/or filter by tag).",
+        "Autosave or explicit save feedback is visible (e.g., saved timestamp or toast)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LyricsLibraryPage.tsx",
+          "operation": "create",
+          "description": "Implement lyrics library list with search by title and filter by tag; allow opening an existing lyric and creating a new one; gate create/delete behind AuthGate while allowing viewing where appropriate. Use shadcn-ui list/card, input, and badge components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LyricEditorPage.tsx",
+          "operation": "create",
+          "description": "Implement a mobile-first lyric editor with title and rich textarea/monospace editor styling; provide save feedback (toast/saved timestamp) and support editing existing lyrics. Use shadcn-ui textarea/input/button/toast patterns. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useLyrics.ts",
+          "operation": "create",
+          "description": "Add react-query hooks/mutations for listing and saving/updating/deleting lyrics via backend methods (getUserLyrics, saveLyric, updateLyric, deleteLyric); include optimistic UI or clear save status feedback and handle authorization errors gracefully."
+        },
+        {
+          "path": "frontend/src/components/lyrics/LyricCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable lyric list item/card showing title, updated time, and tags with touch-friendly actions. Use shadcn-ui card/badge/button components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes for lyrics library and lyric editor, and wire navigation to the lyrics section within the mobile shell."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add local-only rhyme assistance and song templates (no external APIs) integrated into the lyric editor.",
+      "acceptanceCriteria": [
+        "User can insert a selected template into the lyric editor.",
+        "User can enter a word and receive a list of suggested rhymes generated locally (no network calls to third-party services).",
+        "UI clearly indicates rhyme suggestions are approximate/basic."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/templates/songTemplates.ts",
+          "operation": "create",
+          "description": "Define a small set of lyric structure templates (verse/chorus/bridge, etc.) in English for insertion into the editor."
+        },
+        {
+          "path": "frontend/src/lib/rhyme/wordlist.en.ts",
+          "operation": "create",
+          "description": "Bundle a local English word list (lightweight subset appropriate for MVP) used for rhyme suggestions; ensure it ships with the frontend and requires no network calls."
+        },
+        {
+          "path": "frontend/src/lib/rhyme/rhymeEngine.ts",
+          "operation": "create",
+          "description": "Implement a basic rhyme suggestion engine using suffix/ending matching against the bundled word list; clearly treat results as approximate."
+        },
+        {
+          "path": "frontend/src/components/lyrics/TemplatesPicker.tsx",
+          "operation": "create",
+          "description": "Add a templates picker UI that inserts the chosen template into the lyric editor content. Use shadcn-ui popover/dialog/list components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/lyrics/RhymeAssistant.tsx",
+          "operation": "create",
+          "description": "Add a rhyme assistant UI (word input + suggestions list) that calls the local rhyme engine and labels suggestions as basic/approximate. Use shadcn-ui inputs, buttons, and list components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LyricEditorPage.tsx",
+          "operation": "modify",
+          "description": "Wire TemplatesPicker and RhymeAssistant into the lyric editor without external API calls; ensure mobile layout (bottom sheet/dialog) remains touch-friendly. Use shadcn-ui components. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add voice note recording via MediaRecorder with playback and saving/listing voice notes (standalone or linked to a lyric).",
+      "acceptanceCriteria": [
+        "User can start/stop a recording on mobile and immediately playback the result.",
+        "User can save a voice note with a title and see it listed later.",
+        "Backend stores the recording data (with documented size/time limits enforced by the UI)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/audio/recordingLimits.ts",
+          "operation": "create",
+          "description": "Define and centralize voice note UI-enforced limits (max duration and approximate max size guidance) and ensure all user-facing text is English."
+        },
+        {
+          "path": "frontend/src/components/voice/VoiceRecorder.tsx",
+          "operation": "create",
+          "description": "Implement a mobile-friendly MediaRecorder-based recorder (start/stop, timer, immediate playback) with limit enforcement and clear errors. Use shadcn-ui buttons/progress/alerts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/VoiceNotesPage.tsx",
+          "operation": "create",
+          "description": "Implement voice notes list UI (standalone items and items linked to a lyric), with playback and ability to create a new recording; gate saving behind AuthGate. Use shadcn-ui cards/buttons. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useVoiceNotes.ts",
+          "operation": "create",
+          "description": "Add react-query hooks/mutations to list and save voice notes via backend.getUserVoiceNotes and backend.saveVoiceNote; use blob-storage ExternalBlob on the frontend for upload representation (ExternalBlob.fromBytes + optional upload progress). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LyricEditorPage.tsx",
+          "operation": "modify",
+          "description": "Add the ability to create a voice note linked to the currently edited lyric (pass linked lyric identifier where applicable) and show linked voice notes in the editor context. Use shadcn-ui dialogs/drawers. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a route for voice notes (or integrate it as a subview reachable from Lyrics/Profile) and wire navigation access within the existing shell without creating unnecessary new top-level pages."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add song snippet uploads with metadata and playback on uploader profiles, enforcing UI file size/length limits.",
+      "acceptanceCriteria": [
+        "User can upload an audio file and see it listed under their profile.",
+        "Other users can open a profile and play published snippets in the browser.",
+        "The app enforces a clear file size/length limit in the UI before upload to fit canister constraints."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/audio/uploadLimits.ts",
+          "operation": "create",
+          "description": "Define and centralize snippet upload UI-enforced constraints (max file size and recommended duration) and provide English user-facing validation messages."
+        },
+        {
+          "path": "frontend/src/components/snippets/SnippetUploadForm.tsx",
+          "operation": "create",
+          "description": "Implement an authenticated upload form (audio file + title/description/genres) that validates size/length before upload, shows progress/status, and publishes via backend.publishSongSnippet using blob-storage ExternalBlob. Use shadcn-ui form components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/snippets/SnippetList.tsx",
+          "operation": "create",
+          "description": "Implement a list UI that renders published snippets with in-browser playback using ExternalBlob direct URL when available; used on profile pages. Use shadcn-ui cards and audio player layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useSongSnippets.ts",
+          "operation": "create",
+          "description": "Add react-query hooks to fetch and publish snippets via backend.getUserSongSnippets and backend.publishSongSnippet; use ExternalBlob methods to support playback URLs and upload progress (no external services). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/MyProfilePage.tsx",
+          "operation": "modify",
+          "description": "Wire SnippetUploadForm and the user's published snippets list into the My Profile screen (gated behind AuthGate for publishing). Use shadcn-ui tabs/sections as needed. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ArtistProfilePage.tsx",
+          "operation": "modify",
+          "description": "Display the viewed artist's published snippets and enable in-browser playback for other users. Use shadcn-ui components for consistent section styling. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Implement direct messaging UI: inbox, conversation view, and composer accessible from artist profiles; gated by sign-in.",
+      "acceptanceCriteria": [
+        "User can start a conversation from another artist’s profile and send a message.",
+        "Inbox lists recent conversations; conversation view shows chronological messages with timestamps.",
+        "Users can only send messages when signed in; messages persist and reload correctly."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/InboxPage.tsx",
+          "operation": "create",
+          "description": "Implement an inbox screen listing recent conversations; since backend interface exposes per-participant conversation fetch, maintain a lightweight local 'recent participants' index (e.g., localStorage) to populate the inbox and then fetch each conversation preview. Use shadcn-ui list/card components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ConversationPage.tsx",
+          "operation": "create",
+          "description": "Implement a conversation view that fetches messages via backend.getConversation(participant), renders chronological bubbles with timestamps, and provides a composer gated by AuthGate to send via backend.sendMessage. Use shadcn-ui input/button and scroll container patterns. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useMessaging.ts",
+          "operation": "create",
+          "description": "Add react-query hooks/mutations for fetching conversations and sending messages; on send success, update cached conversation and update the local 'recent participants' index used by the inbox."
+        },
+        {
+          "path": "frontend/src/components/messages/MessageComposer.tsx",
+          "operation": "create",
+          "description": "Create a reusable message composer component with send button, disabled state when signed out, and basic validation (English text). Use shadcn-ui input/button. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ArtistProfilePage.tsx",
+          "operation": "modify",
+          "description": "Add a 'Message' action that starts/navigates to a conversation with the viewed artist and records them into the inbox recents; gate sending behind AuthGate. Use shadcn-ui button/dialog as needed. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes for Inbox and Conversation view and wire navigation entry for Messages within the mobile shell."
+        }
+      ]
+    }
+  ]
+}
