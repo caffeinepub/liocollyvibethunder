@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 3,
-  "summary": "Mobile-first songwriting and collaboration app (LioCollyVibeThunder) to help artists write lyrics, develop song ideas, record melody voice notes, and connect with collaborators via profiles, discovery, and messaging; future plans include communities, project sharing, and music discovery while keeping core features free.",
+  "projectStateVersion": 5,
+  "summary": "Mobile-first songwriting and collaboration app (LioCollyVibeThunder) delivered as a mobile web app, with an additional goal to package/wrap it for distribution on Google Play and potentially the Apple App Store via native wrappers.",
   "architectural_notes": [
     "Mobile-first product focused on emerging artists/bedroom musicians; keep core features free and accessible.",
-    "Combine writing tools with built-in collaboration network (social songwriting experience)."
+    "Combine writing tools with built-in collaboration network (social songwriting experience).",
+    "Plan for app-store distribution via wrapper approach (e.g., Android TWA/WebView and iOS native wrapper) while keeping the core app as a mobile web app."
   ],
   "known_issues": [],
   "isFixRequest": false,
@@ -71,6 +72,30 @@
       "title": "Implement direct messaging between creators: backend stores conversations/messages; frontend provides an inbox, conversation view, and composer to message another creator from their profile.",
       "reqIds": [
         "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-in-app-help-install-page-that-explains-in-english-how-users-can-install-liocollyvibethunder-on-ios-and-android-from-the-browser-and-clarifies-that-app-store-play-store-listings-require-separate-native-packaging-outside-this-web-app-build",
+      "title": "Add a dedicated in-app Help / Install page that explains (in English) how users can install LioCollyVibeThunder on iOS and Android from the browser, and clarifies that App Store / Play Store listings require separate native packaging outside this web app build.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-convert-the-web-app-into-a-progressive-web-app-pwa-by-adding-a-web-app-manifest-required-icon-assets-and-appropriate-html-meta-link-tags-so-the-app-can-be-installed-on-mobile-devices",
+      "title": "Convert the web app into a Progressive Web App (PWA) by adding a web app manifest, required icon assets, and appropriate HTML meta/link tags so the app can be installed on mobile devices.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-required-generated-brand-images-are-present-as-static-assets-under-frontend-public-assets-generated-and-are-used-where-referenced-in-the-ui-logo-in-header-and-hero-banner-on-discovery-page",
+      "title": "Ensure required generated brand images are present as static assets under frontend/public/assets/generated and are used where referenced in the UI (logo in header and hero banner on discovery page).",
+      "reqIds": [
+        "REQ-13"
       ],
       "version": 1
     }
@@ -150,6 +175,12 @@
       "reqIds": [
         "REQ-5"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Package/wrap the existing mobile web app for app store distribution (Android Play Store and iOS App Store via native wrapper).",
+      "reqIds": [],
       "status": "pending"
     }
   ],

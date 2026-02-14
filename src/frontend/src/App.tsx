@@ -13,6 +13,7 @@ import ConversationPage from './pages/ConversationPage';
 import MyProfilePage from './pages/MyProfilePage';
 import ArtistProfilePage from './pages/ArtistProfilePage';
 import VoiceNotesPage from './pages/VoiceNotesPage';
+import HelpInstallPage from './pages/HelpInstallPage';
 
 function RootComponent() {
   const { identity } = useInternetIdentity();
@@ -83,6 +84,12 @@ const voiceNotesRoute = createRoute({
   component: VoiceNotesPage,
 });
 
+const helpInstallRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/help',
+  component: HelpInstallPage,
+});
+
 const routeTree = rootRoute.addChildren([
   discoveryRoute,
   lyricsRoute,
@@ -92,6 +99,7 @@ const routeTree = rootRoute.addChildren([
   myProfileRoute,
   artistProfileRoute,
   voiceNotesRoute,
+  helpInstallRoute,
 ]);
 
 const router = createRouter({ routeTree });

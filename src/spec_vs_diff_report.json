@@ -1,135 +1,74 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T23:22:33.748Z",
-  "summary": "The diff adds a new mobile shell, routing, auth gating components, a lyric editor with templates + local rhyme suggestions, and partial backend models for profiles/lyrics/media/messages. However, collaborator discovery, snippet uploads, voice note recording, and several backend CRUD/query endpoints are missing or only partially evidenced (backend file is truncated). There are also unrequested additions like admin-token-based access control initialization and external blob-storage/authorization mixins.",
+  "generatedAt": "2026-02-14T23:51:22.252Z",
+  "summary": "REQ-11 and REQ-12 are partially implemented: a new Help/Install page and /help route/link were added, and a PWA manifest plus HTML PWA meta/link tags were added. However, the diff summary does not show the required static image/icon assets being added under frontend/public, and REQ-13’s required generated images are only referenced in UI, not evidenced as present.",
   "missing_requirements": [
     {
-      "id": "REQ-3",
-      "requirement": "Backend persistent CRUD for artist profiles with genres/tags queryable for discovery and readable by other users.",
-      "reason": "Backend shows update + get-by-principal only; no evidence of listing/searching/querying profiles by genre/tag for discovery. Also a separate getUserProfile endpoint appears restricted to self/admin, which conflicts with 'readable by other users' unless getArtistProfile is used everywhere (not evidenced).",
+      "id": "REQ-11",
+      "requirement": "Help / Install page must include a clear note that publishing to Apple App Store / Google Play Store requires a separate native wrapper and store submission process not performed by this web deployment.",
+      "reason": "The added HelpInstallPage.tsx is truncated and the shown portion includes install steps and UI, but does not show the required explicit store/wrapper disclaimer text. Cannot confirm from provided diff summary.",
       "evidence": [
-        "backend/main.mo"
+        "frontend/src/pages/HelpInstallPage.tsx (truncated)"
       ]
     },
     {
-      "id": "REQ-4",
-      "requirement": "Frontend collaborator discovery screen with filtering by genre/tag and ability to open artist profile details.",
-      "reason": "Discovery page is a placeholder with 'coming soon' text and skeletons; no implementation of browsing/filtering collaborators or opening results is shown.",
+      "id": "REQ-12",
+      "requirement": "Include required PWA icon assets referenced by the manifest (common sizes).",
+      "reason": "The manifest references /assets/pwa/icon-192x192.png and /assets/pwa/icon-512x512.png, but the diff summary does not show these files added under frontend/public (or anywhere).",
       "evidence": [
-        "frontend/src/pages/DiscoveryPage.tsx"
+        "frontend/public/manifest.webmanifest"
       ]
     },
     {
-      "id": "REQ-5",
-      "requirement": "Backend lyrics management CRUD (create/edit/list/delete), scoped to principal, with title, created/updated timestamps, optional tags, and list sorted by updated time.",
-      "reason": "Backend defines LyricDocument and begins implementing saveLyric, but the diff is truncated before showing list/update/delete endpoints and sorting by updated time.",
+      "id": "REQ-12",
+      "requirement": "Include the Apple touch icon asset referenced by the HTML entry point.",
+      "reason": "index.html links /assets/pwa/apple-touch-icon-180x180.png, but the diff summary does not show that file being added.",
       "evidence": [
-        "backend/main.mo (truncated)",
-        "frontend/src/hooks/useQueries.ts (calls getUserLyrics/updateLyric/deleteLyric but implementations not shown in backend snippet)"
+        "frontend/index.html"
       ]
     },
     {
-      "id": "REQ-6",
-      "requirement": "Frontend lyrics library view with organization (search/filter by tag) and save feedback (autosave or explicit save feedback).",
-      "reason": "Lyric editor page is present and includes explicit save actions/toasts, but the lyrics library page is not included in the provided diff summary content, so search/filter and library behaviors are not evidenced.",
+      "id": "REQ-13",
+      "requirement": "Ensure app-logo.dim_512x512.png exists at frontend/public/assets/generated and loads without 404s.",
+      "reason": "UI now references /assets/generated/app-logo.dim_512x512.png, but the diff summary does not show the PNG file being added under frontend/public/assets/generated.",
       "evidence": [
-        "frontend/src/App.tsx (routes to LyricsLibraryPage)",
-        "frontend/src/pages/LyricEditorPage.tsx"
+        "frontend/src/components/layout/MobileShell.tsx"
       ]
     },
     {
-      "id": "REQ-8",
-      "requirement": "Voice note recording using MediaRecorder: record/playback/name/save, associated with lyric or standalone; backend stores recording with documented size/time limits enforced by UI.",
-      "reason": "Backend defines a VoiceNote type and map, and the app routes to a VoiceNotesPage, but there is no evidence of MediaRecorder-based recording UI, playback UI, save endpoints, or enforced limits in the provided diff summary.",
+      "id": "REQ-13",
+      "requirement": "Ensure hero-banner.dim_1600x900.png exists at frontend/public/assets/generated and loads without 404s, and is used on the discovery page.",
+      "reason": "The diff summary does not show the hero banner image file being added, nor does it show the DiscoveryPage change that uses that exact path (only a high-level mention in frontend-file-summaries.txt).",
       "evidence": [
-        "backend/main.mo",
-        "frontend/src/App.tsx (VoiceNotesPage route)"
+        "frontend-file-summaries.txt (mentions DiscoveryPage hero banner, but no direct diff shown)"
       ]
     },
     {
-      "id": "REQ-9",
-      "requirement": "Song snippet uploads: upload short audio with title/description/genres and publish on uploader profile; others can play; UI enforces file size/length limit before upload.",
-      "reason": "Backend defines a SongSnippet type and ArtistProfilePage calls a snippets query hook, but no upload UI/page and no limit enforcement are evidenced. The backend snippet is truncated before any snippet endpoints are shown.",
+      "requirement": "Provide the generated feature icon sheet asset (feature-icons.dim_256x256.png) under frontend/public/assets/generated so the Help/Install page image does not 404.",
+      "reason": "HelpInstallPage.tsx references /assets/generated/feature-icons.dim_256x256.png, but the diff summary does not show that file being added. (This is listed under 'Images required' in the BuildRequest, even though it is not part of REQ-13’s AC list.)",
       "evidence": [
-        "backend/main.mo",
-        "frontend/src/pages/ArtistProfilePage.tsx (uses useGetUserSongSnippets)",
-        "frontend/src/hooks/useQueries.ts (imports SongSnippet but snippet hooks not shown in provided portion)"
-      ]
-    },
-    {
-      "id": "REQ-10",
-      "requirement": "Direct messaging: backend stores conversations/messages; frontend inbox lists recent conversations from backend; conversation view shows chronological messages with timestamps; signed-in gating; persistence.",
-      "reason": "Conversation UI exists and is gated, but inbox uses localStorage 'recentConversations' rather than a backend conversation list, so 'Inbox lists recent conversations' from backend is not evidenced. Backend conversation storage/endpoints are not shown due to truncation.",
-      "evidence": [
-        "frontend/src/pages/InboxPage.tsx (localStorage recentConversations)",
-        "frontend/src/pages/ConversationPage.tsx",
-        "backend/main.mo (conversation types/maps only; endpoints not evidenced)"
+        "frontend/src/pages/HelpInstallPage.tsx (truncated)"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Admin-token/secret-based access control initialization from the frontend (caffeineAdminToken) and backend authorization mixin usage.",
-      "reason": "BuildRequest did not ask for admin-token initialization, secret URL parameters, or a custom authorization framework; it only required Internet Identity auth gating for user actions.",
+      "description": "Global visual/theme changes (new OKLCH warm palette, typography, safe-area utilities) beyond the PWA/help-install scope.",
+      "reason": "Not requested by REQ-11/12/13; appears as an unrelated styling overhaul per the diff summary file listing.",
       "evidence": [
-        "frontend/src/hooks/useActor.ts (getSecretParameter('caffeineAdminToken'); actor._initializeAccessControlWithSecret)",
-        "backend/main.mo (imports authorization/access-control; MixinAuthorization; permission checks)"
-      ]
-    },
-    {
-      "description": "External blob storage mixin/dependency for storing audio via Storage.ExternalBlob.",
-      "reason": "The request required backend storage of recordings/snippets but did not specify adding a blob-storage library/mixin; this is an architectural addition beyond the requested functionality.",
-      "evidence": [
-        "backend/main.mo (imports blob-storage/Storage, blob-storage/Mixin; uses Storage.ExternalBlob)"
-      ]
-    },
-    {
-      "description": "ThemeProvider using next-themes in a Vite/React app.",
-      "reason": "REQ-1 asks for a consistent theme but does not request adding next-themes specifically; this is an unrequested implementation detail.",
-      "evidence": [
-        "frontend/src/App.tsx (imports ThemeProvider from 'next-themes')"
-      ]
-    },
-    {
-      "description": "Use of react-icons (SiInstagram/SiX) for social link icons.",
-      "reason": "Not requested; BuildRequest only specifies UI features and English text, not an additional icon library beyond what’s already present.",
-      "evidence": [
-        "frontend/src/pages/ArtistProfilePage.tsx (imports from 'react-icons/si')"
+        "frontend-file-summaries.txt (entry for frontend/src/index.css)"
       ]
     }
   ],
-  "confidence": 0.68,
+  "confidence": 0.62,
   "changed_files": [
-    "all_files_summary.json",
-    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/index.css",
     "frontend/index.html",
+    "frontend/public/manifest.webmanifest",
     "frontend/src/App.tsx",
-    "frontend/src/components/auth/AuthButton.tsx",
-    "frontend/src/components/auth/AuthGate.tsx",
     "frontend/src/components/layout/MobileShell.tsx",
-    "frontend/src/components/profile/ProfileForm.tsx",
-    "frontend/src/components/profile/ProfileSetupModal.tsx",
-    "frontend/src/hooks/useActor.ts",
-    "frontend/src/hooks/useInternetIdentity.ts",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/lib/rhyme/rhymeEngine.ts",
-    "frontend/src/lib/rhyme/wordlist.en.ts",
-    "frontend/src/lib/templates/songTemplates.ts",
-    "frontend/src/main.tsx",
-    "frontend/src/pages/ArtistProfilePage.tsx",
-    "frontend/src/pages/ConversationPage.tsx",
-    "frontend/src/pages/DiscoveryPage.tsx",
-    "frontend/src/pages/InboxPage.tsx",
-    "frontend/src/pages/LyricEditorPage.tsx",
-    "frontend/src/pages/LyricsLibraryPage.tsx",
-    "frontend/src/pages/MyProfilePage.tsx",
-    "frontend/src/pages/VoiceNotesPage.tsx",
-    "frontend/src/utils/urlParams.ts",
-    "frontend/tailwind.config.js",
+    "frontend/src/pages/HelpInstallPage.tsx",
     "project_state.json"
   ]
 }

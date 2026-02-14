@@ -1,204 +1,73 @@
 {
   "kind": "build_request",
-  "title": "Build LioCollyVibeThunder: mobile-first songwriting + collaboration MVP",
+  "title": "Make LioCollyVibeThunder installable as a PWA and add an in-app install/help screen (store wrapping readiness)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Create a mobile-first UI shell for LioCollyVibeThunder with a consistent visual theme (colors, typography, spacing, and component styling) applied across all pages.",
+      "id": "REQ-11",
+      "text": "Add a dedicated in-app Help / Install page that explains (in English) how users can install LioCollyVibeThunder on iOS and Android from the browser, and clarifies that App Store / Play Store listings require separate native packaging outside this web app build.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-user-wrap-it-up"
         ],
         "quotes": [
-          "LioCollyVibeThunder is a mobile-first songwriting and collaboration app ... designed to help artists write lyrics, develop song ideas, and connect with other creators in one simple platform."
+          "So can you wrap it up"
         ]
       },
       "acceptanceCriteria": [
-        "App is usable on small screens with responsive layouts and touch-friendly controls.",
-        "Theme is consistent across navigation, forms, lists, and detail views.",
-        "Do not use a blue+purple primary palette unless explicitly requested; choose a distinct non-blue/purple style direction and apply it consistently."
+        "A new page is accessible via a route in the app (e.g., from a visible link/button in the UI)",
+        "The page includes step-by-step install instructions for iOS Safari (Add to Home Screen) and Android Chrome (Install app / Add to Home Screen)",
+        "The page includes a clear note that publishing to Apple App Store / Google Play Store requires a separate native wrapper and store submission process not performed by this web deployment"
       ]
     },
     {
-      "id": "REQ-2",
-      "text": "Implement Internet Identity sign-in and a logged-in session state that gates creation/editing actions (lyrics, profiles, uploads, messaging) while still allowing limited browsing where appropriate.",
+      "id": "REQ-12",
+      "text": "Convert the web app into a Progressive Web App (PWA) by adding a web app manifest, required icon assets, and appropriate HTML meta/link tags so the app can be installed on mobile devices.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-user-wrap-it-up"
         ],
         "quotes": [
-          "Create artist profiles",
-          "Message other creators directly"
+          "So can you wrap it up"
         ]
       },
       "acceptanceCriteria": [
-        "Users can sign in and sign out using Internet Identity.",
-        "When signed out, the app prompts for sign-in before creating/editing content.",
-        "The UI shows the current signed-in status (e.g., a profile/avatar menu or indicator)."
+        "A web app manifest file exists and is linked from the app HTML entry point",
+        "The manifest defines app name, short name, start URL, display mode, theme/background colors, and includes icon entries with common sizes",
+        "The HTML entry point includes required PWA links/meta (manifest link, theme-color, and Apple touch icon / capability tags)",
+        "On a mobile browser, the app is eligible for installation (browser shows install option when criteria are met)"
       ]
     },
     {
-      "id": "REQ-3",
-      "text": "Backend: Add persistent data models and CRUD endpoints for artist profiles including display name, bio, genres/tags, and optional links/handles.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Create artist profiles",
-          "Discover collaborators by genre"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A signed-in principal can create/update their own profile.",
-        "Profiles are readable by other users for discovery and messaging.",
-        "Profiles include genre/tags that can be queried for discovery."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Frontend: Build artist profile screens (create/edit my profile, view another artist profile) and a collaborator discovery screen with filtering by genre/tag.",
+      "id": "REQ-13",
+      "text": "Ensure required generated brand images are present as static assets under frontend/public/assets/generated and are used where referenced in the UI (logo in header and hero banner on discovery page).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-user-wrap-it-up"
         ],
         "quotes": [
-          "Create artist profiles",
-          "Discover collaborators by genre"
+          "So can you wrap it up"
         ]
       },
       "acceptanceCriteria": [
-        "User can create/edit their own profile from the UI.",
-        "User can browse/search/filter collaborators by genre/tag and open profile details.",
-        "Profile viewing clearly shows key fields (name, bio, genres/tags)."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Backend: Implement lyrics management allowing a signed-in user to create, edit, list, and delete lyric documents; include metadata such as title, created/updated timestamps, and optional tags.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Write and save lyrics"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can CRUD lyrics that are scoped to their principal.",
-        "List endpoint supports returning a user’s lyrics sorted by updated time.",
-        "Lyrics persist across reloads/upgrades within standard canister persistence expectations."
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Frontend: Provide a lyric editor experience optimized for mobile (title + rich textarea/monospace editor), plus a library view to organize and open saved lyrics.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Write and save lyrics"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can create a new lyric, edit it, and see it appear in their library.",
-        "Library supports basic organization (search by title and/or filter by tag).",
-        "Autosave or explicit save feedback is visible (e.g., saved timestamp or toast)."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Implement rhyme assistance and song templates without external APIs: provide a templates picker (e.g., verse/chorus/bridge structures) and a basic rhyme suggestion tool based on a bundled word list and simple suffix/ending matching.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Rhyme assistance and song templates"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can insert a selected template into the lyric editor.",
-        "User can enter a word and receive a list of suggested rhymes generated locally (no network calls to third-party services).",
-        "UI clearly indicates rhyme suggestions are approximate/basic."
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Add voice note recording for melody ideas using browser recording (MediaRecorder): allow users to record, playback, name, and save voice notes associated with a lyric or as standalone items.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Record voice notes for melodies"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can start/stop a recording on mobile and immediately playback the result.",
-        "User can save a voice note with a title and see it listed later.",
-        "Backend stores the recording data (with documented size/time limits enforced by the UI)."
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "text": "Add song snippet uploads: allow users to upload a short audio file, add a title/description/genres, and publish it for others to view on the uploader’s profile.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Upload song snippets"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can upload an audio file and see it listed under their profile.",
-        "Other users can open a profile and play published snippets in the browser.",
-        "The app enforces a clear file size/length limit in the UI before upload to fit canister constraints."
-      ]
-    },
-    {
-      "id": "REQ-10",
-      "text": "Implement direct messaging between creators: backend stores conversations/messages; frontend provides an inbox, conversation view, and composer to message another creator from their profile.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Message other creators directly"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User can start a conversation from another artist’s profile and send a message.",
-        "Inbox lists recent conversations; conversation view shows chronological messages with timestamps.",
-        "Users can only send messages when signed in; messages persist and reload correctly."
+        "The following files exist at frontend/public/assets/generated and load without 404s: app-logo.dim_512x512.png and hero-banner.dim_1600x900.png",
+        "The header logo renders using /assets/generated/app-logo.dim_512x512.png",
+        "The discovery hero banner renders using /assets/generated/hero-banner.dim_1600x900.png"
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor (all logic in backend/main.mo).",
-    "Do not edit frontend files in immutablePaths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose them instead).",
-    "No third-party auth providers; only Internet Identity.",
-    "No external databases or third-party APIs for rhyme assistance, messaging, storage, or discovery.",
-    "User-facing text in the app must be English."
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Do not modify any files under frontend/src/components/ui (Shadcn components are read-only).",
+    "Do not modify files listed in frontend immutablePaths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui."
   ],
   "nonGoals": [
-    "Creator communities features (groups/feeds) are out of scope for this MVP.",
-    "Project sharing/collaborative multi-editor projects are out of scope for this MVP.",
-    "Music discovery beyond basic collaborator discovery by genre/tag is out of scope for this MVP.",
-    "Real-time chat/typing indicators/presence (no WebSockets) are out of scope; messaging is store-and-fetch."
+    "Building or shipping actual native iOS/Android wrapper projects (e.g., Xcode/Android Studio, Capacitor/Cordova) as part of this codebase.",
+    "Submitting the app to Apple App Store or Google Play Store from this build.",
+    "Adding push notifications, WebSockets, or third-party auth providers."
   ],
   "imageRequirements": {
     "required": [
