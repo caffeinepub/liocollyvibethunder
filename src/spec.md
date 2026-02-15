@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Make LioCollyVibeThunder installable as a PWA and add an in-app Help/Install screen that explains browser-based installation and clarifies store publishing expectations.
+**Goal:** Allow users to upload valid audio files for Song Snippets even when the browser provides a missing or unreliable MIME type, while still blocking clearly non-audio files.
 
 **Planned changes:**
-- Add a dedicated Help / Install page reachable via an in-app route/link, with step-by-step installation instructions for iOS Safari and Android Chrome, plus a note explaining that App Store / Play Store publishing requires separate native packaging outside this web app build.
-- Add PWA support by creating and linking a web app manifest, adding required HTML meta/link tags (including theme color and Apple install-related tags), and defining app metadata and icon entries for common sizes.
-- Ensure generated brand images are present under `frontend/public/assets/generated` and are used in the UI (logo in the header and hero banner on the discovery page) without 404s.
+- Update the Song Snippet upload validation in `frontend/src/pages/MyProfilePage.tsx` to accept files with empty/unknown `file.type` when the filename extension indicates a supported audio format.
+- Configure the upload file picker to allow broad audio selection and include common audio extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac, .webm).
+- Keep rejection behavior for clearly non-audio files (e.g., .png, .pdf) with an English error message, and ensure accepted uploads call `publishSongSnippet` and appear in the snippets list with a playable `<audio>` control.
 
-**User-visible outcome:** Users can install the app from their mobile browser as a PWA, access an in-app page that explains how to install on iOS/Android, and see the correct logo and hero banner assets in the UI.
+**User-visible outcome:** Users can select and upload common audio files for snippets even if their browser doesn’t report the correct MIME type, and the uploaded snippet shows up in the list and can be played back.

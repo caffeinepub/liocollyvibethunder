@@ -1,101 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
-  "summary": "Mobile-first songwriting and collaboration app (LioCollyVibeThunder) delivered as a mobile web app, with an additional goal to package/wrap it for distribution on Google Play and potentially the Apple App Store via native wrappers.",
-  "architectural_notes": [
-    "Mobile-first product focused on emerging artists/bedroom musicians; keep core features free and accessible.",
-    "Combine writing tools with built-in collaboration network (social songwriting experience).",
-    "Plan for app-store distribution via wrapper approach (e.g., Android TWA/WebView and iOS native wrapper) while keeping the core app as a mobile web app."
-  ],
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- App logo mark: microphone + lightning motif, flat vector style (app-logo.dim_512x512.png)\n- Mobile hero/banner illustration: songwriting notebook + phone + waveform, warm modern palette (hero-banner.dim_1600x900.png)\n- Set of 6 small monochrome line icons (lyrics, template, rhyme, record, upload, message) (feature-icons.dim_256x256.png)",
   "existing_features": [
     {
-      "id": "feature-create-a-mobile-first-ui-shell-for-liocollyvibethunder-with-a-consistent-visual-theme-colors-typography-spacing-and-component-styling-applied-across-all-pages",
-      "title": "Create a mobile-first UI shell for LioCollyVibeThunder with a consistent visual theme (colors, typography, spacing, and component styling) applied across all pages.",
+      "id": "feature-update-the-song-snippet-upload-flow-my-profile-snippets-upload-snippet-to-accept-and-successfully-upload-audio-files-even-when-the-browser-does-not-provide-a-reliable-mime-type-e-g-file-type-is-empty-or-not-audio-while-still-rejecting-clearly-non-audio-files",
+      "title": "Update the Song Snippet upload flow (My Profile → Snippets → Upload Snippet) to accept and successfully upload audio files even when the browser does not provide a reliable MIME type (e.g., `file.type` is empty or not `audio/*`), while still rejecting clearly non-audio files.",
       "reqIds": [
         "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-internet-identity-sign-in-and-a-logged-in-session-state-that-gates-creation-editing-actions-lyrics-profiles-uploads-messaging-while-still-allowing-limited-browsing-where-appropriate",
-      "title": "Implement Internet Identity sign-in and a logged-in session state that gates creation/editing actions (lyrics, profiles, uploads, messaging) while still allowing limited browsing where appropriate.",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-frontend-build-artist-profile-screens-create-edit-my-profile-view-another-artist-profile-and-a-collaborator-discovery-screen-with-filtering-by-genre-tag",
-      "title": "Frontend: Build artist profile screens (create/edit my profile, view another artist profile) and a collaborator discovery screen with filtering by genre/tag.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-frontend-provide-a-lyric-editor-experience-optimized-for-mobile-title-rich-textarea-monospace-editor-plus-a-library-view-to-organize-and-open-saved-lyrics",
-      "title": "Frontend: Provide a lyric editor experience optimized for mobile (title + rich textarea/monospace editor), plus a library view to organize and open saved lyrics.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-rhyme-assistance-and-song-templates-without-external-apis-provide-a-templates-picker-e-g-verse-chorus-bridge-structures-and-a-basic-rhyme-suggestion-tool-based-on-a-bundled-word-list-and-simple-suffix-ending-matching",
-      "title": "Implement rhyme assistance and song templates without external APIs: provide a templates picker (e.g., verse/chorus/bridge structures) and a basic rhyme suggestion tool based on a bundled word list and simple suffix/ending matching.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-voice-note-recording-for-melody-ideas-using-browser-recording-mediarecorder-allow-users-to-record-playback-name-and-save-voice-notes-associated-with-a-lyric-or-as-standalone-items",
-      "title": "Add voice note recording for melody ideas using browser recording (MediaRecorder): allow users to record, playback, name, and save voice notes associated with a lyric or as standalone items.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-song-snippet-uploads-allow-users-to-upload-a-short-audio-file-add-a-title-description-genres-and-publish-it-for-others-to-view-on-the-uploader-s-profile",
-      "title": "Add song snippet uploads: allow users to upload a short audio file, add a title/description/genres, and publish it for others to view on the uploader’s profile.",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-direct-messaging-between-creators-backend-stores-conversations-messages-frontend-provides-an-inbox-conversation-view-and-composer-to-message-another-creator-from-their-profile",
-      "title": "Implement direct messaging between creators: backend stores conversations/messages; frontend provides an inbox, conversation view, and composer to message another creator from their profile.",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-dedicated-in-app-help-install-page-that-explains-in-english-how-users-can-install-liocollyvibethunder-on-ios-and-android-from-the-browser-and-clarifies-that-app-store-play-store-listings-require-separate-native-packaging-outside-this-web-app-build",
-      "title": "Add a dedicated in-app Help / Install page that explains (in English) how users can install LioCollyVibeThunder on iOS and Android from the browser, and clarifies that App Store / Play Store listings require separate native packaging outside this web app build.",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-convert-the-web-app-into-a-progressive-web-app-pwa-by-adding-a-web-app-manifest-required-icon-assets-and-appropriate-html-meta-link-tags-so-the-app-can-be-installed-on-mobile-devices",
-      "title": "Convert the web app into a Progressive Web App (PWA) by adding a web app manifest, required icon assets, and appropriate HTML meta/link tags so the app can be installed on mobile devices.",
-      "reqIds": [
-        "REQ-12"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-ensure-required-generated-brand-images-are-present-as-static-assets-under-frontend-public-assets-generated-and-are-used-where-referenced-in-the-ui-logo-in-header-and-hero-banner-on-discovery-page",
-      "title": "Ensure required generated brand images are present as static assets under frontend/public/assets/generated and are used where referenced in the UI (logo in header and hero banner on discovery page).",
-      "reqIds": [
-        "REQ-13"
       ],
       "version": 1
     }
@@ -103,89 +18,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Lyrics writing editor with save/organize functionality",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Rhyme assistance and songwriting templates",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Voice note recording for melody ideas",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Artist profile creation and management",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Upload and share song snippets",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Collaborator discovery by genre",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Direct messaging between creators",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-8",
-      "summary": "Creator communities (future development)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-9",
-      "summary": "Project sharing/collaborative projects (future development)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-10",
-      "summary": "Music discovery features (future development)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-13",
-      "summary": "Backend: Add persistent data models and CRUD endpoints for artist profiles including display name, bio, genres/tags, and optional links/handles.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-15",
-      "summary": "Backend: Implement lyrics management allowing a signed-in user to create, edit, list, and delete lyric documents; include metadata such as title, created/updated timestamps, and optional tags.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-16",
-      "summary": "Package/wrap the existing mobile web app for app store distribution (Android Play Store and iOS App Store via native wrapper).",
+      "summary": "Allow users to upload any audio file (support broad audio formats for uploads)",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "LioCollyVibeThunder",
+  "projectName": "Allow uploading any audio file for song snippet uploads",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

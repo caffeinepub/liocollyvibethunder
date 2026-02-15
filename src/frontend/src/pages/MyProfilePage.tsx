@@ -17,6 +17,7 @@ import { User, Music, Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { ExternalBlob } from '../backend';
 import type { ArtistProfile } from '../backend';
+import { validateAudioFile, getAudioAcceptAttribute } from '../utils/audioFileValidation';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -53,8 +54,9 @@ export default function MyProfilePage() {
       return;
     }
 
-    if (!file.type.startsWith('audio/')) {
-      toast.error('Please select an audio file');
+    const validationError = validateAudioFile(file);
+    if (validationError) {
+      toast.error(validationError);
       return;
     }
 
@@ -214,7 +216,7 @@ export default function MyProfilePage() {
                       <Input
                         id="audioFile"
                         type="file"
-                        accept="audio/*"
+                        accept={getAudioAcceptAttribute()}
                         onChange={handleFileChange}
                       />
                     </div>

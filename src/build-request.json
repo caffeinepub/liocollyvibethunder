@@ -1,80 +1,40 @@
 {
   "kind": "build_request",
-  "title": "Make LioCollyVibeThunder installable as a PWA and add an in-app install/help screen (store wrapping readiness)",
+  "title": "Allow uploading any audio file for song snippet uploads",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-11",
-      "text": "Add a dedicated in-app Help / Install page that explains (in English) how users can install LioCollyVibeThunder on iOS and Android from the browser, and clarifies that App Store / Play Store listings require separate native packaging outside this web app build.",
+      "id": "REQ-1",
+      "text": "Update the Song Snippet upload flow (My Profile → Snippets → Upload Snippet) to accept and successfully upload audio files even when the browser does not provide a reliable MIME type (e.g., `file.type` is empty or not `audio/*`), while still rejecting clearly non-audio files.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-wrap-it-up"
+          "msg-user-allow-audio"
         ],
         "quotes": [
-          "So can you wrap it up"
+          "Allow it to upload any audio file"
         ]
       },
       "acceptanceCriteria": [
-        "A new page is accessible via a route in the app (e.g., from a visible link/button in the UI)",
-        "The page includes step-by-step install instructions for iOS Safari (Add to Home Screen) and Android Chrome (Install app / Add to Home Screen)",
-        "The page includes a clear note that publishing to Apple App Store / Google Play Store requires a separate native wrapper and store submission process not performed by this web deployment"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "text": "Convert the web app into a Progressive Web App (PWA) by adding a web app manifest, required icon assets, and appropriate HTML meta/link tags so the app can be installed on mobile devices.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-wrap-it-up"
-        ],
-        "quotes": [
-          "So can you wrap it up"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A web app manifest file exists and is linked from the app HTML entry point",
-        "The manifest defines app name, short name, start URL, display mode, theme/background colors, and includes icon entries with common sizes",
-        "The HTML entry point includes required PWA links/meta (manifest link, theme-color, and Apple touch icon / capability tags)",
-        "On a mobile browser, the app is eligible for installation (browser shows install option when criteria are met)"
-      ]
-    },
-    {
-      "id": "REQ-13",
-      "text": "Ensure required generated brand images are present as static assets under frontend/public/assets/generated and are used where referenced in the UI (logo in header and hero banner on discovery page).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-wrap-it-up"
-        ],
-        "quotes": [
-          "So can you wrap it up"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The following files exist at frontend/public/assets/generated and load without 404s: app-logo.dim_512x512.png and hero-banner.dim_1600x900.png",
-        "The header logo renders using /assets/generated/app-logo.dim_512x512.png",
-        "The discovery hero banner renders using /assets/generated/hero-banner.dim_1600x900.png"
+        "In `frontend/src/pages/MyProfilePage.tsx`, selecting an audio file with a missing/empty `file.type` no longer triggers the 'Please select an audio file' error if the filename extension indicates an audio format.",
+        "The upload dialog file picker is configured to allow broad audio selection (not limited by browsers that only filter by MIME type), and users can pick common audio extensions such as .mp3, .wav, .m4a, .aac, .ogg, .flac, .webm.",
+        "Clearly non-audio files (e.g., .png, .pdf) are rejected with an English error message.",
+        "Uploading a newly-accepted audio file results in a successful call to `publishSongSnippet` and the snippet appears in the list with a playable `<audio>` control."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
-    "Do not modify any files under frontend/src/components/ui (Shadcn components are read-only).",
-    "Do not modify files listed in frontend immutablePaths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui."
+    "Do not edit files under `frontend/src/components/ui` (read-only components).",
+    "Do not modify immutable frontend hook paths listed in SYSTEM_CONTEXT.",
+    "Backend must remain a single-actor Motoko canister (`backend/main.mo`)."
   ],
   "nonGoals": [
-    "Building or shipping actual native iOS/Android wrapper projects (e.g., Xcode/Android Studio, Capacitor/Cordova) as part of this codebase.",
-    "Submitting the app to Apple App Store or Google Play Store from this build.",
-    "Adding push notifications, WebSockets, or third-party auth providers."
+    "Changing the 10MB max file size limit (unless required to support the audio file acceptance change).",
+    "Adding non-audio uploads (video, images, documents).",
+    "Adding third-party storage or CDN integrations."
   ],
   "imageRequirements": {
-    "required": [
-      "App logo mark: microphone + lightning motif, flat vector style (app-logo.dim_512x512.png)",
-      "Mobile hero/banner illustration: songwriting notebook + phone + waveform, warm modern palette (hero-banner.dim_1600x900.png)",
-      "Set of 6 small monochrome line icons (lyrics, template, rhyme, record, upload, message) (feature-icons.dim_256x256.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

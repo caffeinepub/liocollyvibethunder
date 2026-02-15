@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { Link, useRouterState } from '@tanstack/react-router';
 import { Music, FileText, MessageCircle, User, HelpCircle } from 'lucide-react';
 import AuthButton from '../auth/AuthButton';
+import CopyLinkButton from '../share/CopyLinkButton';
+import InstallCtaButton from '../pwa/InstallCtaButton';
 
 interface MobileShellProps {
   children: ReactNode;
@@ -25,7 +27,9 @@ export default function MobileShell({ children }: MobileShellProps) {
             <img src="/assets/generated/app-logo.dim_512x512.png" alt="LioCollyVibeThunder" className="h-8 w-8" />
             <span className="font-bold text-lg text-primary">LioCollyVibeThunder</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            <CopyLinkButton />
+            <InstallCtaButton />
             <Link
               to="/help"
               className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"

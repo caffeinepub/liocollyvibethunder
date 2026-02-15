@@ -2,12 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-dedicated-in-app-help-install-page-that-explains-in-english-how-users-can-install-liocollyvibethunder-on-ios-and-android-from-the-browser-and-clarifies-that-app-store-play-store-listings-require-separate-native-packaging-outside-this-web-app-build",
-      "featureTitle": "Add a dedicated in-app Help / Install page that explains (in English) how users can install LioCollyVibeThunder on iOS and Android from the browser, and clarifies that App Store / Play Store listings require separate native packaging outside this web app build.",
+      "featureId": "feature-update-the-song-snippet-upload-flow-my-profile-snippets-upload-snippet-to-accept-and-successfully-upload-audio-files-even-when-the-browser-does-not-provide-a-reliable-mime-type-e-g-file-type-is-empty-or-not-audio-while-still-rejecting-clearly-non-audio-files",
+      "featureTitle": "Update the Song Snippet upload flow (My Profile → Snippets → Upload Snippet) to accept and successfully upload audio files even when the browser does not provide a reliable MIME type (e.g., `file.type` is empty or not `audio/*`), while still rejecting clearly non-audio files.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/MobileShell.tsx",
-        "frontend/src/pages/HelpInstallPage.tsx"
+        "frontend/src/pages/MyProfilePage.tsx",
+        "frontend/src/utils/audioFileValidation.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -19,48 +18,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-11"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-convert-the-web-app-into-a-progressive-web-app-pwa-by-adding-a-web-app-manifest-required-icon-assets-and-appropriate-html-meta-link-tags-so-the-app-can-be-installed-on-mobile-devices",
-      "featureTitle": "Convert the web app into a Progressive Web App (PWA) by adding a web app manifest, required icon assets, and appropriate HTML meta/link tags so the app can be installed on mobile devices.",
-      "files": [
-        "frontend/index.html",
-        "frontend/public/manifest.webmanifest"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-12"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-ensure-required-generated-brand-images-are-present-as-static-assets-under-frontend-public-assets-generated-and-are-used-where-referenced-in-the-ui-logo-in-header-and-hero-banner-on-discovery-page",
-      "featureTitle": "Ensure required generated brand images are present as static assets under frontend/public/assets/generated and are used where referenced in the UI (logo in header and hero banner on discovery page).",
-      "files": [
-        "frontend/src/components/layout/MobileShell.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-13"
+        "REQ-1"
       ],
       "confidence": "high"
     }

@@ -1,104 +1,27 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "LioCollyVibeThunder PWA installability + in-app install/help screen",
+  "title": "Allow audio uploads when MIME type is missing by validating via extension",
   "requirements": [
     {
-      "id": "REQ-11",
-      "summary": "Add a dedicated Help / Install page with iOS/Android browser install steps and a clear note about separate store packaging requirements.",
+      "id": "REQ-1",
+      "summary": "Relax Song Snippet audio validation to allow uploads when browser MIME type is missing/unreliable by falling back to filename extension checks while still rejecting clearly non-audio files, and broaden the file picker accept filter for common audio formats.",
       "acceptanceCriteria": [
-        "A new page is accessible via a route in the app (e.g., from a visible link/button in the UI)",
-        "The page includes step-by-step install instructions for iOS Safari (Add to Home Screen) and Android Chrome (Install app / Add to Home Screen)",
-        "The page includes a clear note that publishing to Apple App Store / Google Play Store requires a separate native wrapper and store submission process not performed by this web deployment"
+        "In `frontend/src/pages/MyProfilePage.tsx`, selecting an audio file with a missing/empty `file.type` no longer triggers the 'Please select an audio file' error if the filename extension indicates an audio format.",
+        "The upload dialog file picker is configured to allow broad audio selection (not limited by browsers that only filter by MIME type), and users can pick common audio extensions such as .mp3, .wav, .m4a, .aac, .ogg, .flac, .webm.",
+        "Clearly non-audio files (e.g., .png, .pdf) are rejected with an English error message.",
+        "Uploading a newly-accepted audio file results in a successful call to `publishSongSnippet` and the snippet appears in the list with a playable `<audio>` control."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/HelpInstallPage.tsx",
+          "path": "frontend/src/utils/audioFileValidation.ts",
           "operation": "create",
-          "description": "Create a new Help / Install page containing English step-by-step instructions for iOS Safari and Android Chrome installation, plus a clear disclaimer that App Store / Play Store publishing requires separate native wrapping and submission outside this web build. Also include a small visual section that uses the generated icon set image at frontend/public/assets/generated/feature-icons.dim_256x256.png to satisfy the project’s generated-asset wiring requirement."
+          "description": "Add shared helpers to determine whether a selected File should be treated as an audio file, using a safe allowlist of common audio filename extensions as a fallback when `file.type` is empty/unreliable, and returning a human-readable English rejection reason for clearly non-audio selections."
         },
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/pages/MyProfilePage.tsx",
           "operation": "modify",
-          "description": "Register a new TanStack Router route (e.g., /help or /install) that renders HelpInstallPage, ensuring the page is navigable within the existing route tree."
-        },
-        {
-          "path": "frontend/src/components/layout/MobileShell.tsx",
-          "operation": "modify",
-          "description": "Add a visible link/button in the app UI (e.g., in the header next to the app title or near the AuthButton) that navigates to the new Help / Install route so users can find installation instructions easily."
-        }
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "summary": "Make the app installable as a PWA via a web app manifest, icon assets, and required HTML meta/link tags.",
-      "acceptanceCriteria": [
-        "A web app manifest file exists and is linked from the app HTML entry point",
-        "The manifest defines app name, short name, start URL, display mode, theme/background colors, and includes icon entries with common sizes",
-        "The HTML entry point includes required PWA links/meta (manifest link, theme-color, and Apple touch icon / capability tags)",
-        "On a mobile browser, the app is eligible for installation (browser shows install option when criteria are met)"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/manifest.webmanifest",
-          "operation": "create",
-          "description": "Add a web app manifest that defines the app name/short_name, start_url, display mode (standalone), theme_color and background_color, and icon entries referencing the PWA icon assets (including common sizes like 192x192 and 512x512)."
-        },
-        {
-          "path": "frontend/public/assets/pwa/icon-192x192.png",
-          "operation": "create",
-          "description": "Add a 192x192 PWA icon asset (derived from branding). This file must be referenced by frontend/public/manifest.webmanifest."
-        },
-        {
-          "path": "frontend/public/assets/pwa/icon-512x512.png",
-          "operation": "create",
-          "description": "Add a 512x512 PWA icon asset (derived from branding). This file must be referenced by frontend/public/manifest.webmanifest."
-        },
-        {
-          "path": "frontend/public/assets/pwa/apple-touch-icon-180x180.png",
-          "operation": "create",
-          "description": "Add an Apple touch icon (180x180) for iOS home screen installation. This file must be referenced by link tags in frontend/index.html."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Wire PWA install metadata into the HTML entry: add the manifest link tag, a theme-color meta tag, and iOS-specific tags (apple-touch-icon link and Apple web app capability/status bar meta tags) so iOS and Android browsers recognize the app as installable."
-        }
-      ]
-    },
-    {
-      "id": "REQ-13",
-      "summary": "Ensure required generated brand images exist under frontend/public/assets/generated and are used in the UI (logo in header and hero banner on discovery page).",
-      "acceptanceCriteria": [
-        "The following files exist at frontend/public/assets/generated and load without 404s: app-logo.dim_512x512.png and hero-banner.dim_1600x900.png",
-        "The header logo renders using /assets/generated/app-logo.dim_512x512.png",
-        "The discovery hero banner renders using /assets/generated/hero-banner.dim_1600x900.png"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
-          "operation": "create",
-          "description": "Ensure the generated app logo asset exists at the exact path frontend/public/assets/generated/app-logo.dim_512x512.png so it can be served as a static file without 404s."
-        },
-        {
-          "path": "frontend/public/assets/generated/hero-banner.dim_1600x900.png",
-          "operation": "create",
-          "description": "Ensure the generated hero/banner asset exists at the exact path frontend/public/assets/generated/hero-banner.dim_1600x900.png so it can be served as a static file without 404s."
-        },
-        {
-          "path": "frontend/public/assets/generated/feature-icons.dim_256x256.png",
-          "operation": "create",
-          "description": "Ensure the generated feature icon set asset exists at the exact path frontend/public/assets/generated/feature-icons.dim_256x256.png for static serving and for use in the UI where appropriate."
-        },
-        {
-          "path": "frontend/src/components/layout/MobileShell.tsx",
-          "operation": "modify",
-          "description": "Confirm and (if needed) update the header logo image reference to use the exact required path /assets/generated/app-logo.dim_512x512.png to satisfy the header-logo acceptance criteria."
-        },
-        {
-          "path": "frontend/src/pages/DiscoveryPage.tsx",
-          "operation": "modify",
-          "description": "Confirm and (if needed) update the hero banner image reference to use the exact required path /assets/generated/hero-banner.dim_1600x900.png to satisfy the discovery-hero acceptance criteria."
+          "description": "Update the Upload Snippet flow to (1) configure the file input `accept` attribute to include a broad audio filter plus explicit extensions (.mp3,.wav,.m4a,.aac,.ogg,.flac,.webm) to improve picker behavior across browsers, (2) validate selected files using the new audio validation helper so files with empty/non-audio MIME types can still be accepted when the extension indicates audio while clearly non-audio extensions are rejected with an English error message, and (3) continue uploading via the blob-storage `ExternalBlob` (bytes + optional progress) and calling `publishSongSnippet` so the uploaded snippet renders in the list with the existing playable `<audio>` control. Verify the component's usage instructions before implementing."
         }
       ]
     }

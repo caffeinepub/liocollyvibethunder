@@ -2,7 +2,7 @@
   "frontend/src/App.tsx": "Main application component with TanStack Router setup, route definitions for all pages including new /help route, and global providers (ThemeProvider, profile setup modal, toaster) with properly named RootComponent for React Hooks compliance.",
   "frontend/src/index.css": "Global styles with OKLCH-based warm ember/orange color system for light and dark modes, avoiding blue/purple palette, with mobile-friendly typography and safe-area utilities.",
   "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profiles, artist profiles, lyrics CRUD, voice notes, song snippets, and messaging with proper cache invalidation.",
-  "frontend/src/components/layout/MobileShell.tsx": "Mobile-first layout shell with sticky header (logo, help icon link, and auth button), main content area, and bottom navigation bar for Discovery, Lyrics, Messages, and Profile.",
+  "frontend/src/components/layout/MobileShell.tsx": "Mobile-first layout shell with sticky header (logo, copy link button, install CTA, help icon link, and auth button), main content area, and bottom navigation bar for Discovery, Lyrics, Messages, and Profile.",
   "frontend/src/components/auth/AuthButton.tsx": "Internet Identity login/logout button component with loading states and query cache clearing on logout.",
   "frontend/src/components/auth/AuthGate.tsx": "Authentication gate component that shows sign-in prompt for unauthenticated users or renders children for authenticated users.",
   "frontend/src/components/profile/ProfileSetupModal.tsx": "First-time profile setup modal that appears when authenticated user has no profile, collecting display name and bio.",
@@ -10,7 +10,7 @@
   "frontend/src/pages/DiscoveryPage.tsx": "Collaborator discovery page with hero banner, search input, and coming-soon message for artist browsing functionality.",
   "frontend/src/pages/LyricsLibraryPage.tsx": "Lyrics library page showing user's saved lyrics with search/filter, create button, and cards displaying title, content preview, tags, and last updated date, using type-safe navigation with params instead of template literals.",
   "frontend/src/pages/LyricEditorPage.tsx": "Lyric editor page with title, content textarea, tags management, templates picker dialog, rhyme assistant dialog, save/update/delete actions, and auth gating.",
-  "frontend/src/pages/MyProfilePage.tsx": "User's own profile page with tabs for editing profile (using ProfileForm) and managing song snippets (upload dialog with file picker, progress bar, and playback list).",
+  "frontend/src/pages/MyProfilePage.tsx": "User's own profile page with tabs for editing profile (using ProfileForm) and managing song snippets (upload dialog with enhanced audio file validation supporting extension-based fallback, progress bar, and playback list).",
   "frontend/src/pages/ArtistProfilePage.tsx": "Artist profile view page showing another user's profile details, genres, social links, message button, and published song snippets with audio playback.",
   "frontend/src/pages/InboxPage.tsx": "Messages inbox page listing recent conversations from localStorage with participant names and last message preview, using type-safe navigation with params instead of template literals.",
   "frontend/src/pages/ConversationPage.tsx": "Conversation view page showing chronological message bubbles, participant name in header, and message composer with send button (auth gated).",
@@ -24,5 +24,11 @@
   "frontend/index.html": "HTML entry point with PWA meta tags (manifest link, theme-color, iOS-specific apple-mobile-web-app tags, and apple-touch-icon) for installability on iOS and Android.",
   "frontend/public/assets/pwa/icon-192x192.png": "192x192 PWA icon asset with orange background and abstract geometric design for app installation.",
   "frontend/public/assets/pwa/icon-512x512.png": "512x512 PWA icon asset with orange background and abstract geometric design for app installation.",
-  "frontend/public/assets/pwa/apple-touch-icon-180x180.png": "180x180 Apple touch icon for iOS home screen installation with orange background and abstract geometric design."
+  "frontend/public/assets/pwa/apple-touch-icon-180x180.png": "180x180 Apple touch icon for iOS home screen installation with orange background and abstract geometric design.",
+  "frontend/src/components/share/CopyLinkButton.tsx": "Reusable button component that copies the current page URL to clipboard using the Clipboard API with success toast notification and fallback instruction for unsupported browsers.",
+  "frontend/src/hooks/usePwaInstall.ts": "React hook that manages PWA install state by capturing beforeinstallprompt events, detecting standalone mode (both standard and iOS), and providing an install action that triggers the native prompt.",
+  "frontend/src/components/pwa/InstallCtaButton.tsx": "Install call-to-action button component that triggers native install prompt on supported browsers (Android Chrome) or routes to /help page for iOS Safari, automatically hidden when app is already installed in standalone mode.",
+  "frontend/docs/pwa-installability-validation.md": "PWA installability validation checklist template with sections for manifest/icons verification, iOS Safari testing, Android Chrome testing, in-app install flow validation, and test result recording with sign-off.",
+  "frontend/docs/publish.md": "Documentation for the manual publish procedure to the Internet Computer network, including prerequisites (validation checklist completion), deployment steps, post-deployment verification, rollback procedure, and app store disclaimer.",
+  "frontend/src/utils/audioFileValidation.ts": "Audio file validation utilities that validate files using MIME type when available and fall back to extension checks for common audio formats (.mp3, .wav, .m4a, etc.), rejecting clearly non-audio files with English error messages."
 }
